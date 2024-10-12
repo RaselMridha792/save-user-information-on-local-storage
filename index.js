@@ -20,7 +20,7 @@ const getUserInfo = () => {
   }
 
 
-const displayInformation = (email, name, password) =>{
+const displayInformation = ( name, email, password) =>{
     const information = document.getElementById('user-info');
     const li = document.createElement('li');
     li.innerText = `
@@ -34,7 +34,7 @@ const displayInformation = (email, name, password) =>{
 // get data from local storage 
 
 const getInfoFromLocalStorage = () =>{
-    let info = {};
+    let info = [];
     const storedInfo = localStorage.getItem('info');
     if(storedInfo){
         info = JSON.parse(storedInfo);
@@ -47,23 +47,17 @@ const getInfoFromLocalStorage = () =>{
 
 const saveInfoInLocalStorage = (email, name, password) =>{
     const info = getInfoFromLocalStorage();
-    info['details'] = {
-        name: name,
+    info.push({name: name,
         email: email,
-        password: password
-    }
+        password: password})
     const infoStringified = JSON.stringify(info);
     localStorage.setItem('info', infoStringified);
+
 }
 
 const displayInfoFromLocalStorage = () => {
     const info = getInfoFromLocalStorage();
-    const userinfo = info.details;
-    for(const information in userinfo){
-        const infoValues = userinfo[information]
-        displayInformation(infoValues);
-        console.log(infoValues);
-    }
+    displayInformation(info[0].name, info[0].email, info[0].password);
 }
 
 displayInfoFromLocalStorage()
